@@ -316,6 +316,10 @@ function buttonListener() {
                 cartTotalDisplay.textContent = cartTotal;
 
                 const numOfCartItems = total.length;
+
+                const numOfItems = document.getElementById('items-amount');
+
+                numOfItems.textContent = numOfCartItems;
             };
             cartTotal();
         };
@@ -324,6 +328,13 @@ function buttonListener() {
 }
 buttonListener();
 
+
+ function processAjaxData(response, urlPath){
+     document.getElementById("content").innerHTML = cart.html;
+     document.title = cart.pageTitle;
+     window.history.pushState({"html":cart.html,"pageTitle":cart.pageTitle},"", urlPath);
+ }
+ processAjaxData();
 
 
 

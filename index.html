@@ -6,15 +6,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
     <!-- Imported Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="navbar.css">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart Practice</title>
 </head>
 <body>
-    <div class="products">
-        
-    </div>
-    <script src="app.js"></script>
+    <!-- *** NAV BAR *** -->
+    <nav class="nav-wrapper">
+        <div class="nav-container">
+            <a href="index.html">
+                <img id="nav-logo" src="./VansStoreImages/logo/vansLogo.png" alt="logo">
+            </a>
+
+            <ul class="nav-links-container">
+                <li class="nav-links">
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-links">
+                    <a href="products.html">
+                        Products
+                    </a>
+                </li>
+            </ul>
+            
+            <a id='cart-image-container' href="cart.html">
+                <p id="items-amount">0</p>
+                <img id='cart-img' src="./VansStoreImages/cartImage/cart.png" alt="cart">
+            </a>  
+        </div>
+    </nav>
+<script src="app.js"></script>
 </body>
 </html>
