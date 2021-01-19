@@ -170,7 +170,8 @@ function createCrards(){
                 <img class='product-card-image' src=${product.img} alt=${product.name}>
                 <h2 class='product-card-title'>${product.name}</h2>
                 <p class='product-card-price'>$${product.price}</p>
-                <button class='add-to-cart-btn'>add to cart</button>
+                <button class='add-to-cart add-to-cart-btn'>add to cart</button>
+                
             </div>
         `;
         // pushed new content to container
@@ -187,6 +188,7 @@ function addToCart(){
     // cart container to push new element
     const cart = document.querySelector('.cart-container');
 
+
     atcBtn.forEach(item => {
         item.addEventListener('click', function(){
             // get id to find product in array
@@ -196,6 +198,11 @@ function addToCart(){
             const newProduct = productsAPI[product - 1];
             
             var cartItemQty = 1;
+
+            // button will be replaced by this
+            const addedToCart = document.createElement('p');
+            addedToCart.classList.add('added-to-cart');
+            addedToCart.innerHTML = 'added to cart';
 
             // content for new row
             const cartItemContent = `
@@ -213,6 +220,8 @@ function addToCart(){
                     </p>
                 </div>
             `;
+            item.classList.add('add-to-cart-remove');
+            item.parentElement.appendChild(addedToCart);
 
             // push new cart element to cart
             cart.innerHTML += cartItemContent;
@@ -220,5 +229,6 @@ function addToCart(){
         })
     })
     
-}
+};
 addToCart();
+
