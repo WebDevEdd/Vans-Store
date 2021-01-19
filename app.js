@@ -170,7 +170,7 @@ function createCrards(){
                 <img class='product-card-image' src=${product.img} alt=${product.name}>
                 <h2 class='product-card-title'>${product.name}</h2>
                 <p class='product-card-price'>$${product.price}</p>
-                <button class='add-to-cart add-to-cart-btn'>add to cart</button>
+                <button class='add-to-cart add-to-cart-btn btn'>add to cart</button>
                 
             </div>
         `;
@@ -187,8 +187,7 @@ function addToCart(){
 
     // cart container to push new element
     const cart = document.querySelector('.cart-container');
-
-
+    
     atcBtn.forEach(item => {
         item.addEventListener('click', function(){
             // get id to find product in array
@@ -197,7 +196,6 @@ function addToCart(){
             // with id you can locate the item
             const newProduct = productsAPI[product - 1];
             
-            var cartItemQty = 1;
 
             // button will be replaced by this
             const addedToCart = document.createElement('p');
@@ -208,27 +206,124 @@ function addToCart(){
             const cartItemContent = `
                 <div id=${newProduct.key} class="cart-item-row">
                     <div class='cart-item'>
+                        <p class='remove-from-cart btn'>x</p>
                         <img class='cart-item-img' src=${newProduct.img} alt="">
                     </div>
                     <p class="cart-item cart-item-name">${newProduct.name}</p>
-                    <p class="cart-item cart-item-price">$${newProduct.price}</p>
-                    
-                    <p class="cart-item cart-item-qty">
-                        <button class="qty-btn qty-btn-minus">-</button>
-                            ${cartItemQty}
-                        <button class="qty-btn qty-btn-plus">+</button>
-                    </p>
+                    <span class="cart-item cart-item-price">${newProduct.price}</span>
                 </div>
             `;
+
             item.classList.add('add-to-cart-remove');
             item.parentElement.appendChild(addedToCart);
 
             // push new cart element to cart
             cart.innerHTML += cartItemContent;
+            removeFromCart(item);
             
         })
+        
+        
     })
+    
     
 };
 addToCart();
+
+function removeFromCart(item){
+    const remove = document.querySelectorAll('.remove-from-cart');
+
+    const cart = document.querySelector('.cart-container');
+
+    remove.forEach(btn => {
+        btn.addEventListener('click', function() {
+            //remove new row from cart
+            const newRow = btn.parentElement.parentElement;
+
+            cart.removeChild(newRow);
+
+            //add cart button back to div
+            const newRowId = btn.parentElement.parentElement.id;
+
+            //get element where button will be re-added
+            const cardToaddBtn = document.getElementById(newRowId);
+
+            //remove added-to-cart div
+            cardToaddBtn.childNodes[7].classList.remove('add-to-cart-remove');
+
+            cardToaddBtn.removeChild(cardToaddBtn.childNodes[9]);
+
+        })
+    })
+    
+}
+
+// add listeners to refresh cart total // and find cart total
+function buttonListener() {
+    var buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function(){
+            cartTotal();
+        })
+        function cartTotal(){
+            var total = [];
+
+            const items = document.querySelectorAll('.cart-item-price');
+            
+
+            
+
+            items.forEach(item => {
+                const itemsID = parseFloat(item.parentElement.id);
+
+                const itemsInCart = {
+                    id: itemsID,
+                    price: parseFloat(item.textContent)
+                };
+
+                total.push(itemsInCart);
+
+            })
+            console.log(total);
+
+            const removeItem = document.querySelectorAll('.remove-from-cart');
+
+            removeItem.forEach(removes => {
+                removes.addEventListener('click', function(){
+                    const removeID = removes.parentElement.parentElement.id;
+
+                    for(var i=0; i < total.length; i++) {
+                        if(total[i].id == removeID)
+                        {
+                            total.splice(i,1);
+                        }
+                    }
+
+                    console.log(total);
+                    cartTotal();
+                })
+            })
+
+            //calculation for cart total
+            function cartTotal(){
+                var cartTotal = total.reduce(function(a, b){
+                    return a + b.price;
+                }, 0);  
+
+                const cartTotalDisplay = document.querySelector('.cart-total');
+
+                cartTotalDisplay.textContent = cartTotal;
+
+                const numOfCartItems = total.length;
+            };
+            cartTotal();
+        };
+    })
+
+}
+buttonListener();
+
+
+
 
